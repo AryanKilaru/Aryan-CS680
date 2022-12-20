@@ -1,0 +1,58 @@
+package edu.umb.cs680.hw08;
+
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class DirectoryTest {
+    Directory root = new Directory("root", 7, LocalDateTime.now(), null);
+
+    Directory Apps = new Directory("Apps", 7, LocalDateTime.now(), root);
+
+    Directory bin = new Directory("Lib", 7, LocalDateTime.now(), root);
+
+    Directory Home = new Directory("Home", 7, LocalDateTime.now(), root);
+
+    Directory pictures = new Directory("Code", 7, LocalDateTime.now(), Home);
+
+    File x = new File("x", 7, LocalDateTime.now(), Apps);
+
+    File y = new File("y", 7, LocalDateTime.now(), bin);
+
+    File a = new File("a", 7, LocalDateTime.now(), pictures);
+
+    File b = new File("b", 7, LocalDateTime.now(), pictures);
+
+    File c = new File("c", 7, LocalDateTime.now(), Home);
+
+    Link d = new Link("d",7, LocalDateTime.now(), pictures, root);
+
+    Link e = new Link("e", 7, LocalDateTime.now(), x, root);
+
+
+    private String[] directory_to_string(Directory d){
+        Optional<Directory> optional_directory = Optional.ofNullable(d.getParent());
+        String[] file = {d.getName(),
+                Integer.toString(d.getSize()),
+                optional_directory.isPresent()?d.getParent().getName():"null"};
+        return file;
+    }
+
+    @Test
+    public void Test1(){
+        String[] expected = {"Apps", "7", "root"};
+        assertArrayEquals(expected, directory_to_string(Apps));
+    }
+
+    @Test
+    public void Test2(){
+        String[] expected = {"root", "7", "null"};
+        assertArrayEquals(expected, directory_to_string(root));
+    }
+
+
+
+}
